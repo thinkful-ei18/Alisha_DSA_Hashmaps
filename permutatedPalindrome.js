@@ -14,7 +14,6 @@ const permutatedPalindrome = string => {
   // if the key IS in the hash, just increase the value by 1
 
   for (let i = 0; i < string.length; i++) {
-
     let characterCount;
 
     try {
@@ -24,7 +23,9 @@ const permutatedPalindrome = string => {
       characterCount = 0;
     }
 
-    isPalindrome.set(string[i], (characterCount + 1));
+    if (string[i] !== ' ') {
+      isPalindrome.set(string[i], (characterCount + 1));
+    }
   }
 
   // set a count variable
@@ -34,8 +35,17 @@ const permutatedPalindrome = string => {
   // if it's odd, increase count by 1
   // if count ends up being greater than 1, it's not a palindrome
 
-  return isPalindrome;
+  let hashedCount = 0;
+
+  for (let i = 0; i < isPalindrome._slots.length; i++) {
+    if (isPalindrome._slots[i] && isPalindrome._slots[i].value % 2 !== 0) {
+      hashedCount += 1;
+    }
+  }
+
+  return hashedCount > 1 ? `'${string}' is not a palindrome.` : `'${string}' is a palindrome!`;
 
 };
 
 console.log(permutatedPalindrome('acecarr'));
+console.log(permutatedPalindrome('too bad i hid a boot'));
