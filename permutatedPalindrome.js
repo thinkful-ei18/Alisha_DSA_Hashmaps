@@ -37,8 +37,8 @@ const permutatedPalindrome = string => {
 
   let hashedCount = 0;
 
-  for (let i = 0; i < isPalindrome._slots.length; i++) {
-    if (isPalindrome._slots[i] && isPalindrome._slots[i].value % 2 !== 0) {
+  for (let i = 0; i < isPalindrome.length; i++) {
+    if (string[i] !== ' ' && isPalindrome.get(string[i]) % 2 !== 0) {
       hashedCount += 1;
     }
   }
@@ -47,5 +47,6 @@ const permutatedPalindrome = string => {
 
 };
 
+console.log(permutatedPalindrome('hello'));
 console.log(permutatedPalindrome('acecarr'));
 console.log(permutatedPalindrome('too bad i hid a boot'));
