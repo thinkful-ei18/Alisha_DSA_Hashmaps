@@ -8,6 +8,10 @@ class HashMap {
     this._deleted = 0;
   }
 
+
+  /* ============================ 
+  GET - find which slot the key is being held at, then return that index's value
+  ============================*/
   get(key) {
     const index = this._findSlot(key);
     if (this._slots[index] === undefined) {
@@ -16,6 +20,10 @@ class HashMap {
     return this._slots[index].value;
   }
 
+
+  /* ============================ 
+  SET - add a key-value pair to the hashmap
+  ============================*/
   set(key, value) {
     const loadRatio = (this.length + this._deleted + 1) / this._capacity;
     if (loadRatio > HashMap.MAX_LOAD_RATIO) {
@@ -31,6 +39,10 @@ class HashMap {
     this.length++;
   }
 
+
+  /* ============================ 
+  REMOVE
+  ============================*/
   remove(key) {
     const index = this._findSlot(key);
     const slot = this._slots[index];
@@ -42,8 +54,10 @@ class HashMap {
     this._deleted++;
   }
 
-  // open addressing
-  _findSlot(key) {
+  /* ============================ 
+  COLLISION HANDLING - open addressing
+  ============================*/
+  _findSlot(key) { 
     const hash = HashMap._hashString(key);
     const start = hash % this._capacity;
 
@@ -56,6 +70,10 @@ class HashMap {
     }
   }
 
+
+  /* ============================ 
+  RESIZE THE ARRAY
+  ============================*/
   _resize(size) {
     const oldSlots = this._slots;
     this._capacity = size;
@@ -70,16 +88,25 @@ class HashMap {
     }
   }
 
-  // takes a string and returns a number
+
+  /* ============================ 
+  HASH - takes a string and returns a 32 bit number
+  ============================*/
   static _hashString(string) {
     let hash = 5381;
     for (let i = 0; i < string.length; i++) {
       hash = (hash << 5) + hash + string.charCodeAt(i);
+      // string.charCodeAt(i) is using ascii code
       hash = hash & hash;
     }
     return hash >>> 0;
   }
+
+
 }
 
 HashMap.MAX_LOAD_RATIO = 0.9; // when the 'slots' array is 90% full, a resize will happen
-HashMap.SIZE_RATIO = 3;
+HashMap.SIZE_RATIO = 3; // the capacity will triple when the MAX_LOAD_RATIO is met
+
+
+module.exports = HashMap;
